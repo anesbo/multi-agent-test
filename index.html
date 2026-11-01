@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    
+    <!-- Title & SEO -->
+    <title>Liquid Weather - Atmospheric Forecast</title>
+    <meta name="description" content="Hyper-realistic Liquid Glass Weather PWA with 60fps dynamic canvas engine and offline forecasts" />
+    
+    <!-- Theme & Color Scheme -->
+    <meta name="theme-color" content="#0a63c9" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="background-color" content="#070b19" />
+
+    <!-- Apple iOS Standalone Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Weather" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+
+    <!-- Android / General PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Weather" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="/icons/icon-192.png" />
+
+    <!-- Preconnect to Open-Meteo API for ultra-low latency -->
+    <link rel="preconnect" href="https://api.open-meteo.com" />
+    <link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Safe Service Worker Registration & PWA Install Prompt Support -->
+    <script>
+      // Global holder for PWA deferred install prompt
+      window.deferredPrompt = null;
+      window.isAppInstalled = false;
+
+      // Capture browser beforeinstallprompt
+      window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent default mini-infobar or automatic prompt
+        e.preventDefault();
+        window.deferredPrompt = e;
+        console.log('[PWA] beforeinstallprompt captured and ready');
+        // Notify React components or UI listeners
+        window.dispatchEvent(new CustomEvent('pwa-installable', { detail: { prompt: e } }));
+      });
+
+      // Track when app is successfully installed
+      window.addEventListener('appinstalled', () => {
+        window.deferredPrompt = null;
+        window.isAppInstalled = true;
+        console.log('[PWA] Application successfully installed into system');
+        window.dispatchEvent(new CustomEvent('pwa-installed'));
+      });
+
+      // Safely register Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' })
+            .then((registration) => {
+              console.log('[PWA] Service Worker registered successfully with scope:', registration.scope);
+              
+              // Handle update detection
+              registration.addEventListener('updatefound', () => {
+                const installingWorker = registration.installing;
+                if (installingWorker) {
+                  installingWorker.addEventListener('statechange', () => {
+                    if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                      console.log('[PWA] New version available; will activate on next refresh.');
+                      window.dispatchEvent(new CustomEvent('pwa-update-ready', { detail: { registration } }));
+                    }
+                  });
+                }
+              });
+            })
+            .catch((error) => {
+              console.warn('[PWA] Service Worker registration failed:', error);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>

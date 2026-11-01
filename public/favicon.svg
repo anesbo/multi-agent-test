@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b3e"/>
+      <stop offset="50%" stop-color="#0a63c9"/>
+      <stop offset="100%" stop-color="#050a18"/>
+    </linearGradient>
+
+    <!-- Sun Glow Gradient -->
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff5cc"/>
+      <stop offset="35%" stop-color="#ffb703"/>
+      <stop offset="70%" stop-color="#fb8500"/>
+      <stop offset="100%" stop-color="#fb8500" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Sun Solid Core -->
+    <radialGradient id="sunCore" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fffbe0"/>
+      <stop offset="40%" stop-color="#ffb703"/>
+      <stop offset="100%" stop-color="#fb8500"/>
+    </radialGradient>
+
+    <!-- Cloud Glass Gradient -->
+    <linearGradient id="cloudGlass" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="30%" stop-color="#cbe5ff" stop-opacity="0.55"/>
+      <stop offset="70%" stop-color="#70b4ff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#1e3a8a" stop-opacity="0.45"/>
+    </linearGradient>
+
+    <!-- Cloud Rim / Specular Glow -->
+    <linearGradient id="specularRim" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.6"/>
+    </linearGradient>
+
+    <!-- Rain / Drop Gradient -->
+    <linearGradient id="dropGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#67e8f9"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+
+    <!-- Filter for Glass Blur & Shadows -->
+    <filter id="glassShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+    <filter id="sunBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded App Icon Background -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
+  <rect width="510" height="510" x="1" y="1" rx="111" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+
+  <!-- Sun Rays & Glow -->
+  <circle cx="340" cy="180" r="110" fill="url(#sunGlow)" filter="url(#sunBlur)"/>
+  <circle cx="340" cy="180" r="64" fill="url(#sunCore)"/>
+
+  <!-- Liquid Glass Cloud Backdrop Glow -->
+  <path d="M190 380 C140 380, 100 340, 100 295 C100 255, 128 220, 168 212 C185 155, 238 115, 300 115 C372 115, 432 170, 438 240 C465 252, 484 280, 484 312 C484 350, 452 380, 414 380 Z"
+        fill="rgba(255,255,255,0.08)" filter="url(#glassShadow)"/>
+
+  <!-- Primary Liquid Glass Cloud Body -->
+  <path d="M170 370 C125 370, 90 334, 90 292 C90 255, 116 223, 152 216 C168 162, 218 124, 276 124 C342 124, 396 174, 403 238 C428 248, 446 274, 446 304 C446 340, 417 370, 380 370 Z"
+        fill="url(#cloudGlass)"
+        stroke="url(#specularRim)"
+        stroke-width="3"
+        filter="url(#glassShadow)"/>
+
+  <!-- Inner Cloud Glare Highlight Curve -->
+  <path d="M165 218 C178 175, 222 140, 276 140 C326 140, 370 174, 386 220"
+        fill="none"
+        stroke="#ffffff"
+        stroke-width="5"
+        stroke-linecap="round"
+        stroke-opacity="0.8"/>
+
+  <!-- Secondary Bottom Rim Glow -->
+  <path d="M110 300 C105 340, 140 360, 175 360 L375 360 C410 360, 435 335, 430 305"
+        fill="none"
+        stroke="rgba(56, 189, 248, 0.4)"
+        stroke-width="3"
+        stroke-linecap="round"/>
+
+  <!-- Stylized Liquid Weather Raindrops -->
+  <path d="M180 405 C175 415, 170 425, 170 435 A10 10 0 0 0 190 435 C190 425, 185 415, 180 405 Z" fill="url(#dropGrad)"/>
+  <path d="M255 400 C250 412, 244 424, 244 436 A12 12 0 0 0 268 436 C268 424, 262 412, 255 400 Z" fill="url(#dropGrad)"/>
+  <path d="M330 408 C326 417, 322 426, 322 434 A8 8 0 0 0 338 434 C338 426, 334 417, 330 408 Z" fill="url(#dropGrad)"/>
+</svg>
